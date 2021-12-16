@@ -28,15 +28,15 @@ Import the library like any other Julia package
 julia> using Mueller
 ```
 
-Mueller.jl provides building blocks for commonn components. Here I generate the Mueller matrix for an optical system comprising three linear polarizers, each rotated 45 degrees from the one prior.
+Mueller.jl provides building blocks for common components. Here I generate the Mueller matrix for an optical system comprising three linear polarizers, each rotated 45 degrees from the one prior. Notice the matrix multiplication is inverse the order of the optical components.
 
 ```jldoctest example
-julia> M = linear_polarizer(0) * linear_polarizer(π/4) * linear_polarizer(π/2)
+julia> M = linear_polarizer(π/2) * linear_polarizer(π/4) * linear_polarizer(0)
 4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
- 0.125  -0.125  1.53081e-17  0.0
- 0.125  -0.125  1.53081e-17  0.0
- 0.0     0.0    0.0          0.0
- 0.0     0.0    0.0          0.0
+  0.125         0.125        0.0  0.0
+ -0.125        -0.125        0.0  0.0
+ -1.53081e-17  -1.53081e-17  0.0  0.0
+  0.0           0.0          0.0  0.0
 ```
 
 you'll notice some roundoff due to the finite precision of `π/4`, you can avoid this by using [Unitful.jl](https://github.com/PainterQubits/Unitful.jl)
@@ -44,12 +44,12 @@ you'll notice some roundoff due to the finite precision of `π/4`, you can avoid
 ```jldoctest example
 julia> using Unitful: °
 
-julia> M = linear_polarizer(0°) * linear_polarizer(45°) * linear_polarizer(90°)
+julia> M = linear_polarizer(90°) * linear_polarizer(45°) * linear_polarizer(0°)
 4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
- 0.125  -0.125  0.0  0.0
- 0.125  -0.125  0.0  0.0
- 0.0     0.0    0.0  0.0
- 0.0     0.0    0.0  0.0
+  0.125   0.125  0.0  0.0
+ -0.125  -0.125  0.0  0.0
+  0.0     0.0    0.0  0.0
+  0.0     0.0    0.0  0.0
 ```
 
 let's see what happens when completely unpolarized light passes through these filters. We can represent light using the [Stokes vector](https://en.wikipedia.org/wiki/Stokes_parameters)
@@ -64,10 +64,10 @@ julia> S = [1, 0, 0, 0] # I, Q, U, V
 
 julia> Sp = M * S
 4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
- 0.125
- 0.125
- 0.0
- 0.0
+  0.125
+ -0.125
+  0.0
+  0.0
 ```
 
 the output vector has 1/8 the total intensity of the original light, and it is 1/8 polarized in the +Q direction. This demonstrates the somewhat paradoxical quantum behavior of light ([Bell's Theroem](https://en.wikipedia.org/wiki/Bell%27s_theorem), inspired by [this video](https://www.youtube.com/watch?v=zcqZHYo7ONs)): even though the light passes through two orthogonal linear polarizers (the 0° and 90° ones) because the wave equation operates probabilistically, 50% passes through the first polarizer, 50% of that light passes through the 45° polarizer, and then 50% of the remaining light passes through the final polarizer, combining to 1/8 of the original light.
