@@ -23,8 +23,8 @@ function linear_polarizer(T::Type, gamma=0, p=1)
     I = T(p^2 / 2)
     M = I * SA{T}[1 1 0 0
                  1 1 0 0
-                 0 0 0 0 
-                 0 0 0 0]    
+                 0 0 0 0
+                 0 0 0 0]
     return rotate(M, gamma)
 end
 linear_polarizer(gamma=0, p=1) = linear_polarizer(Float64, gamma, p)
