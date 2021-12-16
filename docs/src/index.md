@@ -8,7 +8,7 @@ CurrentModule = Mueller
 [![Build Status](https://github.com/JuliaPhysics/Mueller.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/Mueller.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![PkgEval](https://juliaci.github.io/NanosoldierReports/pkgeval_badges/M/Mueller.svg)](https://juliaci.github.io/NanosoldierReports/pkgeval_badges/report.html)
 [![Coverage](https://codecov.io/gh/JuliaPhysics/Mueller.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaPhysics/Mueller.jl)
-[![License](https://img.shields.io/github/license/JuliaPhysics/Mueller.jl?color=yellow)](LICENSE)
+[![License](https://img.shields.io/github/license/JuliaPhysics/Mueller.jl?color=yellow)](https://github.com/JuliaPhysics/Mueller.jl/blob/main/LICENSE)
 
 [Mueller matrices](https://en.wikipedia.org/wiki/Mueller_calculus) for common optical components such as polarizers, phase retarders, and attenuating filters. The matrices are built using [StaticArrays.jl](https://github.com/JuliaArrays/StaticArrays.jl) for speed and can be arbitrarily rotated.
 
@@ -56,6 +56,11 @@ let's see what happens when completely unpolarized light passes through these fi
 
 ```jldoctest example
 julia> S = [1, 0, 0, 0] # I, Q, U, V
+4-element Vector{Int64}:
+ 1
+ 0
+ 0
+ 0
 
 julia> Sp = M * S
 4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
