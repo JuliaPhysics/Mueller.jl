@@ -1,6 +1,10 @@
+using LinearAlgebra
 using Mueller
+using StableRNGs
 using Test
 using Unitful: °
+
+rng = StableRNG(128584)
 
 @testset "Mueller.jl" begin
 
@@ -44,6 +48,21 @@ using Unitful: °
             S = T[1, -1/√2, 1/√2, 0]
             Sp = vertical * S
             @test Sp ≈ 1/2 * T[1 + 1/√2, -1 - 1/√2, 0, 0]
+        end
+    end
+
+    @testset "double polarization" begin
+        M0 = linear_polarizer()
+        M90 = linear_polarizer(90°)
+        M = M0 * M90
+        @test all(≈(0), M)
+
+        # more randomly
+        for θ in 180 .* rand(rng, 1000)
+            M1 = linear_polarizer(θ*°)
+            M2 = linear_polarizer((θ + 90)*°)
+            M = M0 * M90
+            @test all(≈(0), M)
         end
     end
 end

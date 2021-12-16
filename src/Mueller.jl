@@ -14,14 +14,19 @@ function rotation(T, θ)
 end
 rotation(θ) = rotation(Float64, θ)
 
-function linear_polarizer(T::Type, gamma=0, p=1)
-    sin2g, cos2g = sincos(2 * gamma)
-    I = T(p^2 / 2)
-    return I * SA{T}[1 cos2g 0 0
-                 cos2g 1 0 0
-                 0 0 sin2g 0 
-                 0 0 0 sin2g]    
+function rotate(mat::AbstractMatrix{T}, θ) where T
+    r = rotation(T, θ)
+    return r * mat * r
 end
-linear_polarizer(args...) = linear_polarizer(Float64, args...)
+
+function linear_polarizer(T::Type, gamma=0, p=1)
+    I = T(p^2 / 2)
+    M = I * SA{T}[1 1 0 0
+                 1 1 0 0
+                 0 0 0 0 
+                 0 0 0 0]    
+    return rotate(M, gamma)
+end
+linear_polarizer(gamma=0, p=1) = linear_polarizer(Float64, gamma, p)
 
 end # module
