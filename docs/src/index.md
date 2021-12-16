@@ -4,7 +4,7 @@ CurrentModule = Mueller
 
 # Mueller
 
-Documentation for [Mueller](https://github.com/mileslucas/Mueller.jl).
+Documentation for [Mueller](https://github.com/JuliaPhysics/Mueller.jl).
 
 ```@index
 ```
