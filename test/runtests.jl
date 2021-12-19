@@ -1,5 +1,6 @@
 using LinearAlgebra
 using Mueller
+using RecipesBase: apply_recipe
 using StableRNGs
 using Test
 using Unitful: °
@@ -112,5 +113,17 @@ rng = StableRNG(128584)
             @test Sp ≈ T[0.5, 0, 0, -0.5] atol=1e-10
         end
 
+    end
+
+    @testset "plot recipe" begin
+        S = [1, 0, 0, 1]
+        obj = Mueller.PolEllipse(S)
+        recipes = apply_recipe(Dict{Symbol,Any}(), obj)
+        recipe = only(recipes)
+        x, y = recipe.args[1:2]
+        @test minimum(x) ≈ -1/sqrt(2) atol=1e-5
+        @test maximum(x) ≈ 1/sqrt(2) atol=1e-5
+        @test minimum(y) ≈ -1/sqrt(2) atol=1e-5
+        @test maximum(y) ≈ 1/sqrt(2) atol=1e-5
     end
 end
