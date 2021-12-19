@@ -97,7 +97,7 @@ linear_polarizer(θ=0; kwargs...) = linear_polarizer(Float64, θ; kwargs...)
 # wave plates
 
 """
-    waveplate([T=Float64], θ=0, δ=0; p=1)
+    waveplate([T=Float64], θ=0, δ=0)
 
 A generic phase retarder (waveplate) with fast axis aligned with angle `θ`, in radians, and phase delay of `δ`, in radians, along the slow axis. The degree of polarization can be set with the keyword argument `p`, which will change the intensity by a factor of `p^2/2`.
 
@@ -117,21 +117,20 @@ true
 # See also
 [`hwp`](@ref), [`qwp`](@ref), [`mirror`](@ref)
 """
-function waveplate(T::Type, θ=0, δ=0; p=1)
+function waveplate(T::Type, θ=0, δ=0)
     sin2t, cos2t = sincos(2 * θ)
     sind, cosd = sincos(δ)
-    I = T(p^2 / 2)
-    return I * SA{T}[1 0 0 0
-                     0 cos2t^2 + sin2t^2*cosd cos2t * sin2t * (1 - cosd) sin2t * sind
-                     0 cos2t*sin2t*(1-cosd) cos2t^2*cosd + sin2t^2 -cos2t * sind
-                     0 -sin2t * sind cos2t * sind cosd]
+    return SA{T}[1 0 0 0
+                 0 cos2t^2 + sin2t^2*cosd cos2t * sin2t * (1 - cosd) sin2t * sind
+                 0 cos2t*sin2t*(1-cosd) cos2t^2*cosd + sin2t^2 -cos2t * sind
+                 0 -sin2t * sind cos2t * sind cosd]
 end
-waveplate(θ=0, δ=0; kwargs...) = waveplate(Float64, θ, δ; kwargs...)
+waveplate(θ=0, δ=0) = waveplate(Float64, θ, δ)
 
 """
-    hwp([T=Float64], θ=0; p=1)
+    hwp([T=Float64], θ=0)
 
-A half-wave plate (HWP) with fast axis oriented at angle `θ`, in radians. The degree of polarization can be set with the keyword argument `p`, which will change the intensity by a factor of `p^2/2`.
+A half-wave plate (HWP) with fast axis oriented at angle `θ`, in radians.
 
 # Examples
 ```jldoctest
@@ -163,12 +162,12 @@ julia> rotate(M, π/8) * S # switch +Q to +U
 # See also
 [`waveplate`](@ref), [`qwp`](@ref)
 """
-hwp(T::Type, θ=0; kwargs...) = waveplate(T, θ, π; kwargs...)
-hwp(θ=0; kwargs...) = hwp(Float64, θ; kwargs...)
+hwp(T::Type, θ=0) = waveplate(T, θ, π)
+hwp(θ=0) = hwp(Float64, θ)
 
 
 """
-    qwp([T=Float64], θ=0; p=1)
+    qwp([T=Float64], θ=0)
 
 A quarter-wave plate (QWP) with fast axis oriented at angle `θ`, in radians. The degree of polarization can be set with the keyword argument `p`, which will change the intensity by a factor of `p^2/2`.
 
@@ -200,8 +199,8 @@ julia> hwp(π/8) * S # switch +Q to +U
 # See also
 [`waveplate`](@ref), [`hwp`](@ref)
 """
-qwp(T::Type, θ=0; kwargs...) = waveplate(T, θ, π/2; kwargs...)
-qwp(θ=0; kwargs...) = qwp(Float64, θ; kwargs...)
+qwp(T::Type, θ=0) = waveplate(T, θ, π/2)
+qwp(θ=0) = qwp(Float64, θ)
 
 """
     mirror([T=Float64], r=1, θ=0, δ=π)
