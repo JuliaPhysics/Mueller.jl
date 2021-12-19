@@ -27,7 +27,7 @@ polellipse(Sp, label="0° LP", lims=(-1, 1))
 If we add another polarizer in the orthogonal direction, we will end up attenuating all of the light (by the definition of orthogonal). In order to combine Mueller matrices, we just use matrix multiplication from right to left
 
 ```math
-M = M_N \cdot \left(\hdots \cdot M_2 \cdot \left(M_1 \right)\right)
+M = M_N \cdot \left(\hdots \cdot M_2 \cdot \left( M_1 \right)\right)
 ```
 
 !!! tip "Ordering"
@@ -77,6 +77,65 @@ vline!([45°], c=:black, ls=:dash, alpha=0.7)
 ```
 
 ## Differential polarimetry
+
+Stokes parameters are a convenient basis for polarization due to its direct relation to observables. To demonstrate this, let's set up an experiment with a simple polarimeter. This polarimeter consists of a half-wave plate (HWP) and a linear polarizer.
+
+```@example pdi
+using Mueller
+M = linear_polarizer() * hwp()
+```
+
+polarized light will enter the detector, and in the current configuration the +Q polarization will be measured
+
+```@example pdi
+S = [1, 0.3, 0.2, 0]
+Sp = M * S
+```
+
+now, if we rotate the HWP by ``\gamma``, the angle of linear polarization will increase by ``2\gamma``. We can measure orthogonal polarization states (e.g., +Q and -Q) by choosing the appropriate angles for ``\gamma``. In this case, we measure -Q by rotating the HWP by 45°.
+
+```@example pdi
+using Unitful: °
+M45 = linear_polarizer() * hwp(45°)
+Sp45 = M45 * S
+```
+
+if we take the difference of the two measurements, `Sp` and `Sp45`, we remove the unpolarized intensity component of the light and retain only the polarized component (in this case, stokes Q)
+
+```@example pdi
+diffQ = Sp - Sp45
+```
+
+from this difference, we get a clean observable of the polarimetric signal
+
+```@example pdi
+Qhat = diffQ[2] 
+Qhat ≈ S[2]
+```
+
+Let's repeat this process with the HWP at 22.5° and 67.5° we can measure the +U and -U states
+
+```@example pdi
+M225 = linear_polarizer() * hwp(22.5°)
+Sp225 = M225 * S
+M675 = linear_polarizer() * hwp(67.5°)
+Sp675 = M675 * S
+diffU = Sp225 - Sp675
+Uhat = diffU[2]
+```
+
+so, from four measurements, we can generate the I, Q, and U stokes parameters
+
+```@example pdi
+Ihat = 0.5 * (Sp[1] + Sp45[1] + Sp225[1] + Sp675[1])
+Shat = [Ihat, Qhat, Uhat, NaN]
+```
+
+which faithfully captures the linear components of the original light
+
+```@example pdi
+Shat[1:3] ≈ S[1:3]
+```
 
 ## Generating circularly polarized light
 
