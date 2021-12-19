@@ -87,18 +87,25 @@ rng = StableRNG(128584)
         @testset "hwp" begin
             M = hwp(T)
             @test eltype(M) == T
-            @test M ≈ waveplate(T, 0, π)
+            @test M ≈ waveplate(T, π, 0)
 
             Sp = M * T[1, 1, 0, 0]
             @test Sp ≈ T[1, 1, 0, 0] atol=1e-10
             Sp = M * T[1, 0, 1, 0]
             @test Sp ≈ T[1, 0, -1, 0] atol=1e-10
+
+            for angle in π/2 .* (rand(rng, 1000) .- 0.5)
+                M = hwp(T, angle)
+                Sp = M * T[1, 1, 0, 0]
+                AoLP = 0.5 * atan(Sp[3], Sp[2])
+                @test AoLP ≈ 2 * angle atol=1e-6
+            end
         end
 
         @testset "qwp" begin
             M = qwp(T)
             @test eltype(M) == T
-            @test M ≈ waveplate(T, 0, π/2)
+            @test M ≈ waveplate(T, π/2, 0)
 
             Sp = M * T[1, 1, 0, 0]
             @test Sp ≈ T[1, 1, 0, 0] atol=1e-10

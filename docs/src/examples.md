@@ -30,6 +30,15 @@ If we add another polarizer in the orthogonal direction, we will end up attenuat
 M = M_N \cdot \left(\hdots \cdot M_2 \cdot \left(M_1 \right)\right)
 ```
 
+!!! tip "Ordering"
+    Let's say you had a list of optical components in order of the light's path. To quickly produce a Mueller matrix from their combination, do
+
+    ```jldoctest
+    julia> components = hwp.(randn(10)); # M0, M1, M2, ...
+
+    julia> M = prod(reverse(components))
+    ```
+
 ```@example bell
 M2 = linear_polarizer(90°)
 M = M2 * M0

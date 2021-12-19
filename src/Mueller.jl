@@ -100,13 +100,13 @@ linear_polarizer(θ=0; kwargs...) = linear_polarizer(Float64, θ; kwargs...)
 # wave plates
 
 """
-    waveplate([T=Float64], θ=0, δ=0)
+    waveplate([T=Float64], δ=0, θ=0)
 
 A generic phase retarder (waveplate) with fast axis aligned with angle `θ`, in radians, and phase delay of `δ`, in radians, along the slow axis. The degree of polarization can be set with the keyword argument `p`, which will change the intensity by a factor of `p^2/2`.
 
 # Examples
 ```jldoctest
-julia> M = waveplate(0, π);
+julia> M = waveplate(π);
 
 julia> M ≈ hwp()
 true
@@ -120,7 +120,7 @@ true
 # See also
 [`hwp`](@ref), [`qwp`](@ref), [`mirror`](@ref)
 """
-function waveplate(T::Type, θ=0, δ=0)
+function waveplate(T::Type, δ=0, θ=0)
     sin2t, cos2t = sincos(2 * θ)
     sind, cosd = sincos(δ)
     return SA{T}[1 0 0 0
@@ -128,7 +128,7 @@ function waveplate(T::Type, θ=0, δ=0)
                  0 cos2t*sin2t*(1-cosd) cos2t^2*cosd + sin2t^2 -cos2t * sind
                  0 -sin2t * sind cos2t * sind cosd]
 end
-waveplate(θ=0, δ=0) = waveplate(Float64, θ, δ)
+waveplate(δ=0, θ=0) = waveplate(Float64, δ, θ)
 
 """
     hwp([T=Float64], θ=0)
@@ -165,7 +165,7 @@ julia> rotate(M, π/8) * S # switch +Q to +U
 # See also
 [`waveplate`](@ref), [`qwp`](@ref)
 """
-hwp(T::Type, θ=0) = waveplate(T, θ, π)
+hwp(T::Type, θ=0) = waveplate(T, π, θ)
 hwp(θ=0) = hwp(Float64, θ)
 
 
@@ -203,11 +203,11 @@ julia> hwp(π/8) * S # switch +Q to +U
 # See also
 [`waveplate`](@ref), [`hwp`](@ref)
 """
-qwp(T::Type, θ=0) = waveplate(T, θ, π/2)
+qwp(T::Type, θ=0) = waveplate(T, π/2, θ)
 qwp(θ=0) = qwp(Float64, θ)
 
 """
-    mirror([T=Float64], r=1, θ=0, δ=π)
+    mirror([T=Float64], r=1, δ=π, θ=0)
 
 A reflective mirror with reflectance `r`, oriented at angle `θ`, in radians, compared to the reference frame of the light, and with phase shift `δ`. An ideal mirror will have perfect reflectance and a 180° phase shift.
 
@@ -229,7 +229,7 @@ julia> M * S # no change
  0.0
  0.0
 
-julia> mirror(1, π/4) * S # rotates polarized light
+julia> mirror(1, π, π/4) * S # rotates polarized light
 4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
   1.0
  -1.0
@@ -237,7 +237,7 @@ julia> mirror(1, π/4) * S # rotates polarized light
   1.2246467991473532e-16
 ```
 """
-function mirror(T::Type, r=1, θ=0, δ=π)
+function mirror(T::Type, r=1, δ=π, θ=0)
     a = 0.5 * (r + 1)
     b = 0.5 * (r - 1)
     sin2t, cos2t = sincos(2 * θ)
@@ -250,6 +250,6 @@ function mirror(T::Type, r=1, θ=0, δ=π)
               0          sqrm * sind * sin2t                 -sqrm * sind * cos2t                 sqrm * cosd]
     return M
 end
-mirror(r=1, θ=0, δ=π) = mirror(Float64, r, θ, δ)
+mirror(r=1, θ=0, δ=π) = mirror(Float64, r, δ, θ)
 
 end # module
