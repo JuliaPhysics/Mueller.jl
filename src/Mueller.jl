@@ -232,9 +232,9 @@ julia> M * S # no change
 julia> mirror(1, π, π/4) * S # rotates polarized light
 4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
   1.0
-  1.0
- -7.173814858237197e-17
- -1.7319121124709863e-16
+ -1.0
+  1.2246467991473532e-16
+  1.2246467991473532e-16
 ```
 """
 function mirror(T::Type, r=1, δ=π, θ=0)
@@ -250,6 +250,6 @@ function mirror(T::Type, r=1, δ=π, θ=0)
               0          sqrm * sind * sin2t                 -sqrm * sind * cos2t                 sqrm * cosd]
     return M
 end
-mirror(r=1, θ=0, δ=π) = mirror(Float64, r, δ, θ)
+mirror(r=1, δ=π, θ=0) = mirror(Float64, r, δ, θ)
 
 end # module
