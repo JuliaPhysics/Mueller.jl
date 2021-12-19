@@ -16,6 +16,7 @@ polellipse
     aspect_ratio --> 1
     xguide --> "x"
     yguide --> "y"
+    alpha -->  range(0.2, 1, length=N)
 
     # extract elliptical params (a, b, θ) from Stokes vector
     stokes = first(pe.args)

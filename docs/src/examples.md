@@ -139,3 +139,25 @@ Shat[1:3] ≈ S[1:3]
 
 ## Generating circularly polarized light
 
+Circularly polarized light can be generated from unpolarized light with a polarizer and a quarter-wave plate (QWP).
+
+```@example circular
+using Mueller
+using Unitful: °
+
+M = qwp() * linear_polarizer(45°)
+```
+
+```@example circular
+S = [1, 0, 0, 0]
+Sp = M * S
+```
+
+The light is  attenuated due to the linear polarizer, which is required to apply the phase change with the QWP to appropriately create  circular polarization. We can gain more intuition for this process by looking at the polarization ellipses of the light between the components
+
+```@example circular
+using Plots
+
+polellipse(linear_polarizer(45°) * S, label="45° LP", lims=(-1, 1))
+polellipse!(Sp, label="45° LP + QWP")
+```

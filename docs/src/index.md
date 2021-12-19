@@ -35,7 +35,7 @@ julia> M = linear_polarizer(π/2) * linear_polarizer(π/4) * linear_polarizer(0)
 4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
   0.125         0.125        0.0  0.0
  -0.125        -0.125        0.0  0.0
- -1.53081e-17  -1.53081e-17  0.0  0.0
+  1.53081e-17   1.53081e-17  0.0  0.0
   0.0           0.0          0.0  0.0
 ```
 

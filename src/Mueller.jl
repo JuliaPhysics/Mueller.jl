@@ -91,7 +91,7 @@ function linear_polarizer(T::Type, θ=0; p=1)
     sin2t, cos2t = sincos(2 * θ)
     M = I * SA{T}[1 cos2t sin2t 0
                  cos2t cos2t^2 cos2t * sin2t 0
-                 -sin2t -cos2t * sin2t -sin2t^2 0
+                 sin2t cos2t * sin2t sin2t^2 0
                  0 0 0 0]
     return M
 end
