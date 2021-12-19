@@ -117,7 +117,7 @@ rng = StableRNG(128584)
 
     @testset "plot recipe" begin
         S = [1, 0, 0, 1]
-        obj = Mueller.PolEllipse(S)
+        obj = Mueller.PolEllipse([S])
         recipes = apply_recipe(Dict{Symbol,Any}(), obj)
         recipe = only(recipes)
         x, y = recipe.args[1:2]

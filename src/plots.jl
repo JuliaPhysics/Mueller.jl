@@ -18,7 +18,7 @@ polellipse
     yguide --> "y"
 
     # extract elliptical params (a, b, θ) from Stokes vector
-    stokes = pe.args
+    stokes = first(pe.args)
     L = hypot(stokes[begin + 1], stokes[begin + 2])
     Ip = hypot(L, stokes[begin + 3])
     θ = 0.5 * atan(stokes[begin + 2], stokes[begin + 1])
@@ -28,7 +28,5 @@ polellipse
     t = range(0, 2π, N)
     x = @. a * cos(t) * cos(θ) - b * sin(t) * sin(θ)
     y = @. a * cos(t) * sin(θ) + b * sin(t) * cos(θ)
-    xlim --> (-L, L)
-    ylim --> (-L, L)
     return x, y
 end
