@@ -25,7 +25,7 @@ polellipse
     a = sqrt(0.5 * (Ip + L))
     b = sqrt(0.5 * (Ip - L))
     # draw ellipse
-    t = range(0, 2π, N)
+    t = range(0, 2π, length=N)
     x = @. a * cos(t) * cos(θ) - b * sin(t) * sin(θ)
     y = @. a * cos(t) * sin(θ) + b * sin(t) * cos(θ)
     return x, y
