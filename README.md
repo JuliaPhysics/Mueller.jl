@@ -66,7 +66,7 @@ julia> Sp = M * S
   0.0
 ```
 
-the output vector has 1/8 the total intensity of the original light, and it is 1/8 polarized in the +Q direction. This demonstrates the somewhat paradoxical quantum behavior of light ([Bell's Theroem](https://en.wikipedia.org/wiki/Bell%27s_theorem), inspired by [this video](https://www.youtube.com/watch?v=zcqZHYo7ONs)): even though the light passes through two orthogonal linear polarizers (the 0° and 90° ones) because the wave equation operates probabilistically, 50% passes through the first polarizer, 50% of that light passes through the 45° polarizer, and then 50% of the remaining light passes through the final polarizer, combining to 1/8 of the original light.
+the output vector has 1/8 the total intensity of the original light, and it is 1/8 polarized in the -Q direction (vertical). This demonstrates the somewhat paradoxical quantum behavior of light ([Bell's Theroem](https://en.wikipedia.org/wiki/Bell%27s_theorem), inspired by [this video](https://www.youtube.com/watch?v=zcqZHYo7ONs)): even though the light passes through two orthogonal linear polarizers (the 0° and 90° ones) because the wave equation operates probabilistically, 50% passes through the first polarizer, 50% of that light passes through the 45° polarizer, and then 50% of the remaining light passes through the final polarizer, combining to 1/8 of the original light.
 
 ## Contributing and Support
 

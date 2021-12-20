@@ -2,13 +2,13 @@ module Mueller
 
 using StaticArrays
 
-export rotate, linear_polarizer, hwp, qwp, mirror, waveplate
+export rotation, rotate, linear_polarizer, hwp, qwp, mirror, waveplate
 
 include("plots.jl")
 
 # Various formulae for polarization components
 """
-    Mueller.rotation([T=Float64], θ)
+    rotation([T=Float64], θ)
 
 Generate a rotation matrix with the given angle, in radians, `θ`. This can be used to rotate the axes of polarization components arbitrarily. For convenience, the [`rotate`](@ref) method will rotate a component, without having to generate this matrix, itself.
 
@@ -18,7 +18,7 @@ Rotate a linear polarizer by 90 degrees counter-clockwise
 ```jldoctest
 julia> M = linear_polarizer();
 
-julia> r = Mueller.rotation(π/4);
+julia> r = rotation(π/4);
 
 julia> Mr = r' * M * r;
 
@@ -102,7 +102,7 @@ linear_polarizer(θ=0; kwargs...) = linear_polarizer(Float64, θ; kwargs...)
 """
     waveplate([T=Float64], δ=0, θ=0)
 
-A generic phase retarder (waveplate) with fast axis aligned with angle `θ`, in radians, and phase delay of `δ`, in radians, along the slow axis. The degree of polarization can be set with the keyword argument `p`, which will change the intensity by a factor of `p^2/2`.
+A generic phase retarder (waveplate) with fast axis aligned with angle `θ`, in radians, and phase delay of `δ`, in radians, along the slow axis.
 
 # Examples
 ```jldoctest
@@ -111,9 +111,9 @@ julia> M = waveplate(π);
 julia> M ≈ hwp()
 true
 
-julia> M = waveplate(π/2, π/2);
+julia> M = waveplate(π/2, π/4);
 
-julia> M ≈ qwp(π/2)
+julia> M ≈ qwp(π/4)
 true
 ```
 
@@ -172,7 +172,7 @@ hwp(θ=0) = hwp(Float64, θ)
 """
     qwp([T=Float64], θ=0)
 
-A quarter-wave plate (QWP) with fast axis oriented at angle `θ`, in radians. The degree of polarization can be set with the keyword argument `p`, which will change the intensity by a factor of `p^2/2`.
+A quarter-wave plate (QWP) with fast axis oriented at angle `θ`, in radians.
 
 # Examples
 ```jldoctest
@@ -192,12 +192,12 @@ julia> M * S # allow +Q through unchanged
  0.0
  0.0
 
-julia> hwp(π/8) * S # switch +Q to +U
+julia> qwp(-π/4) * S # switch +Q to +V
 4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
   1.0
-  2.220446049250313e-16
+  6.123233995736766e-17
+ -6.123233995736765e-17
   1.0
- -8.659560562354932e-17
 ```
 
 # See also
