@@ -14,8 +14,6 @@ CurrentModule = Mueller
 
 ## Installation
 
-**Note** not yet registered, please add the repo manually
-
 ```julia
 julia>] add Mueller
 ```
