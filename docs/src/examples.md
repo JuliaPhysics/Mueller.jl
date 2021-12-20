@@ -63,7 +63,7 @@ polellipse!(M1 * M0 * S, label="0°+45° LP")
 polellipse!(Sp, label="0°+45°+90° LP")
 ```
 
-TODO
+We can plot the light transmitted as a function of the angle of the  intermediate polarizer
 
 ```@example bell
 angles = range(0°, 90°, length=100)
@@ -75,6 +75,8 @@ end
 plot(angles, intens, leg=false, xlabel="θ", ylabel="I")
 vline!([45°], c=:black, ls=:dash, alpha=0.7)
 ```
+
+this curve follows the form ``\cos(2\theta)`` and is part of the proof  of  Bell's theorem (Bell's inequality) which states there are no "hidden" variables that can know the outcome of the light's polarized state before arriving at the polarizers.
 
 ## Differential polarimetry
 
@@ -109,7 +111,7 @@ diffQ = Sp - Sp45
 from this difference, we get a clean observable of the polarimetric signal
 
 ```@example pdi
-Qhat = diffQ[2] 
+Qhat = diffQ[2]
 Qhat ≈ S[2]
 ```
 
