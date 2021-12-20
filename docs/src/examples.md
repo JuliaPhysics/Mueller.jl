@@ -76,7 +76,7 @@ plot(angles, intens, leg=false, xlabel="θ", ylabel="I")
 vline!([45°], c=:black, ls=:dash, alpha=0.7)
 ```
 
-this curve follows the form ``\cos(2\theta)`` and is part of the proof  of  Bell's theorem (Bell's inequality) which states there are no "hidden" variables that can know the outcome of the light's polarized state before arriving at the polarizers.
+this curve follows the form ``\sin(2\theta)`` and is part of the proof  of  Bell's theorem (Bell's inequality) which states there are no "hidden" variables that can know the outcome of the light's polarized state before arriving at the polarizers.
 
 ## Differential polarimetry
 
