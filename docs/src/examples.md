@@ -27,7 +27,7 @@ polellipse(Sp, label="0° LP", lims=(-1, 1))
 If we add another polarizer in the orthogonal direction, we will end up attenuating all of the light (by the definition of orthogonal). In order to combine Mueller matrices, we just use matrix multiplication from right to left
 
 ```math
-M = M_N \cdot \left(\dots \cdot M_2 \cdot \left( M_1 \right)\right)
+M = M_N \cdot \left(\ldots \cdot M_2 \cdot \left( M_1 \right)\right)
 ```
 
 !!! tip "Ordering"
