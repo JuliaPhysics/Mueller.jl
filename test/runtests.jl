@@ -117,7 +117,7 @@ rng = StableRNG(128584)
             M = qwp(T) * linear_polarizer(T, 45°)
             S = T[1, 0, 0, 0]
             Sp = M * S
-            @test Sp ≈ T[0.5, 0, 0, -0.5] atol=1e-10
+            @test Sp ≈ T[0.5, 0, 0, 0.5] atol=1e-10
         end
 
     end
