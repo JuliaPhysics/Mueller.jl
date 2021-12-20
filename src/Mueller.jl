@@ -23,7 +23,7 @@ julia> r = Mueller.rotation(π/4);
 julia> Mr = r' * M * r;
 
 julia> Mr ≈ linear_polarizer(π/4)
-false
+true
 ```
 
 # See also
@@ -71,10 +71,10 @@ A linear polarizer with the throughput axis given by `θ`, in radians, by defaul
 ```jldoctest
 julia> M = linear_polarizer()
 4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
-  0.5   0.5   0.0  0.0
-  0.5   0.5   0.0  0.0
- -0.0  -0.0  -0.0  0.0
-  0.0   0.0   0.0  0.0
+ 0.5  0.5  0.0  0.0
+ 0.5  0.5  0.0  0.0
+ 0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0
 
 julia> S = [1, 0, 0, 0]; # I, Q, U, V
 
