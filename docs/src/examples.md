@@ -163,3 +163,41 @@ using Plots
 polellipse(linear_polarizer(45°) * S, label="45° LP", lims=(-1, 1))
 polellipse!(Sp, label="45° LP + QWP")
 ```
+
+## Symbolic calculations
+
+Here we show the flexibility of Julia's multiple dispatch by combining [Symbolics.jl](https://github.com/SciML/Symbolics.jl) with Mueller.jl to derive an equation similar to eq. 13 from ["Mueller matrix for imperfect, rotated mirrors"](https://psfcsv10.psfc.mit.edu/~sscott/MSEmemos/mse_memo_20c.pdf)
+
+```@example mirror
+using Mueller
+using Symbolics
+using Unitful: °
+
+@variables I γ χ
+
+# represent light using the polarization ellipse angle γ
+S = [I, cos(2γ), sin(2γ), 0]
+# need to specify eltype for symbolic variable
+M = mirror(typeof(I), 1, 180°, χ)
+```
+
+```@example mirror
+Iout = M * S
+```
+
+applying the substitutions
+
+```@example mirror
+rules = [
+    cos(2χ)^2 - sin(2χ)^2 => cos(4χ),
+    sin(2χ)^2 - cos(2χ)^2 => sin(4χ)
+]
+```
+
+shows that
+
+```@example mirror
+substitute(Iout, rules)
+```
+
+which fully recreates equation 13 from the manuscript.
