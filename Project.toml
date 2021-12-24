@@ -1,7 +1,7 @@
 name = "Mueller"
 uuid = "dfba0342-83e6-42c7-a796-fcf383ab214c"
 authors = ["Miles Lucas <mdlucas@hawaii.edu> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
