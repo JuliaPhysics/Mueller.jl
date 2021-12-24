@@ -590,7 +590,7 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 deps = ["LinearAlgebra", "RecipesBase", "StaticArrays"]
 path = ".."
 uuid = "dfba0342-83e6-42c7-a796-fcf383ab214c"
-version = "0.1.0"
+version = "0.1.1"
 
 [[deps.MultivariatePolynomials]]
 deps = ["DataStructures", "LinearAlgebra", "MutableArithmetics"]

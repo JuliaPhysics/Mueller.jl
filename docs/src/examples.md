@@ -166,9 +166,10 @@ polellipse!(Sp, label="45° LP + QWP")
 
 ## Symbolic calculations
 
-Here we show the flexibility of Julia's multiple dispatch by combining [Symbolics.jl](https://github.com/SciML/Symbolics.jl) with Mueller.jl to derive an equation similar to eq. 13 from ["Mueller matrix for imperfect, rotated mirrors"](https://psfcsv10.psfc.mit.edu/~sscott/MSEmemos/mse_memo_20c.pdf)
+Here we show the flexibility of Julia's multiple dispatch by combining [Symbolics.jl](https://github.com/SciML/Symbolics.jl) with Mueller.jl to derive an equation similar to Eq. 13 from ["Mueller matrix for imperfect, rotated mirrors"](https://psfcsv10.psfc.mit.edu/~sscott/MSEmemos/mse_memo_20c.pdf)
 
 ```@example mirror
+using Latexify
 using Mueller
 using Symbolics
 using Unitful: °
@@ -178,11 +179,41 @@ using Unitful: °
 # represent light using the polarization ellipse angle γ
 S = [I, cos(2γ), sin(2γ), 0]
 # need to specify eltype for symbolic variable
+# perfect mirror
 M = mirror(typeof(I), 1, 180°, χ)
+nothing # hide
+```
+
+```math
+\begin{equation}
+\left[
+\begin{array}{cccc}
+1.0 & 0.0 & 0.0 & 0 \\
+0.0 &  - \sin^{2}\left( 2 \chi \right) + \cos^{2}\left( 2 \chi \right) & \sin\left( 4 \chi \right) & -0.0 \\
+0.0 & \sin\left( 4 \chi \right) &  - \cos^{2}\left( 2 \chi \right) + \sin^{2}\left( 2 \chi \right) & 0.0 \\
+0 & 0.0 & -0.0 & -1.0 \\
+\end{array}
+\right]
+\end{equation}
 ```
 
 ```@example mirror
+# "apply" mirror to light
 Iout = M * S
+nothing # hide
+```
+
+```math
+\begin{equation}
+\left[
+\begin{array}{c}
+I \\
+\left(  - \sin^{2}\left( 2 \chi \right) + \cos^{2}\left( 2 \chi \right) \right) \cos\left( 2 \gamma \right) + \sin\left( 2 \gamma \right) \sin\left( 4 \chi \right) \\
+\left(  - \cos^{2}\left( 2 \chi \right) + \sin^{2}\left( 2 \chi \right) \right) \sin\left( 2 \gamma \right) + \cos\left( 2 \gamma \right) \sin\left( 4 \chi \right) \\
+0.0 \\
+\end{array}
+\right]
+\end{equation}
 ```
 
 applying the substitutions
@@ -197,7 +228,21 @@ rules = [
 shows that
 
 ```@example mirror
-substitute(Iout, rules)
+Isub = substitute.(Iout, (rules,))
+nothing # hide
 ```
 
-which fully recreates equation 13 from the manuscript.
+```math
+\begin{equation}
+\left[
+\begin{array}{c}
+I \\
+\cos\left( 2 \gamma \right) \cos\left( 4 \chi \right) + \sin\left( 2 \gamma \right) \sin\left( 4 \chi \right) \\
+\cos\left( 2 \gamma \right) \sin\left( 4 \chi \right) + \sin\left( 2 \gamma \right) \sin\left( 4 \chi \right) \\
+0.0 \\
+\end{array}
+\right]
+\end{equation}
+```
+
+which fully recreates Eq. 13 from the manuscript.
