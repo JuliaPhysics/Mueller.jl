@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>API/Reference · Mueller.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link rel="canonical" href="https://juliaphysics.github.io/Mueller.jl/api/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="Mueller.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">Mueller.jl</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../examples/">Examples</a></li><li class="is-active"><a class="tocitem" href>API/Reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>API/Reference</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>API/Reference</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaPhysics/Mueller.jl/blob/master/docs/src/api.md#" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="API/Reference"><a class="docs-heading-anchor" href="#API/Reference">API/Reference</a><a id="API/Reference-1"></a><a class="docs-heading-anchor-permalink" href="#API/Reference" title="Permalink"></a></h1><ul><li><a href="#Mueller.hwp"><code>Mueller.hwp</code></a></li><li><a href="#Mueller.linear_polarizer"><code>Mueller.linear_polarizer</code></a></li><li><a href="#Mueller.mirror"><code>Mueller.mirror</code></a></li><li><a href="#Mueller.polellipse"><code>Mueller.polellipse</code></a></li><li><a href="#Mueller.qwp"><code>Mueller.qwp</code></a></li><li><a href="#Mueller.rotate-Union{Tuple{T}, Tuple{AbstractMatrix{T}, Any}} where T"><code>Mueller.rotate</code></a></li><li><a href="#Mueller.rotation-Tuple{Any, Any}"><code>Mueller.rotation</code></a></li><li><a href="#Mueller.waveplate"><code>Mueller.waveplate</code></a></li></ul><article class="docstring"><header><a class="docstring-binding" id="Mueller.hwp" href="#Mueller.hwp"><code>Mueller.hwp</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia hljs">hwp([T=Float64], θ=0)</code></pre><p>A half-wave plate (HWP) with fast axis oriented at angle <code>θ</code>, in radians.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl hljs">julia&gt; M = hwp()
+4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+ 1.0   0.0   0.0           0.0
+ 0.0   1.0   0.0           0.0
+ 0.0   0.0  -1.0          -1.22465e-16
+ 0.0  -0.0   1.22465e-16  -1.0
+
+julia&gt; S = [1, 1, 0, 0]; # I, Q, U, V
+
+julia&gt; M * S # allow +Q through unchanged
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+ 1.0
+ 1.0
+ 0.0
+ 0.0
+
+julia&gt; rotate(M, π/8) * S # switch +Q to +U
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+  1.0
+  1.9967346175427393e-16
+  1.0
+ -8.659560562354932e-17
+</code></pre><p><strong>See also</strong></p><p><a href="#Mueller.waveplate"><code>waveplate</code></a>, <a href="#Mueller.qwp"><code>qwp</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L133-L167">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.linear_polarizer" href="#Mueller.linear_polarizer"><code>Mueller.linear_polarizer</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia hljs">linear_polarizer([T=Float64], θ=0; p=1)</code></pre><p>A linear polarizer with the throughput axis given by <code>θ</code>, in radians, by default horizontal. The partial polarization can be given with the <code>p</code> keyword argument, which changes the intensity by a factor of <code>p^2/2</code>.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl hljs">julia&gt; M = linear_polarizer()
+4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+ 0.5  0.5  0.0  0.0
+ 0.5  0.5  0.0  0.0
+ 0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0
+
+julia&gt; S = [1, 0, 0, 0]; # I, Q, U, V
+
+julia&gt; M * S # only horizontal component (+Q) remains
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+ 0.5
+ 0.5
+ 0.0
+ 0.0</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L64-L88">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.mirror" href="#Mueller.mirror"><code>Mueller.mirror</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia hljs">mirror([T=Float64], r=1, δ=π, θ=0)</code></pre><p>A reflective mirror with reflectance <code>r</code>, oriented at angle <code>θ</code>, in radians, compared to the reference frame of the light, and with phase shift <code>δ</code>. An ideal mirror will have perfect reflectance and a 180° phase shift.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl hljs">julia&gt; M = mirror()
+4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+ 1.0  0.0   0.0           0.0
+ 0.0  1.0   0.0          -0.0
+ 0.0  0.0  -1.0           1.22465e-16
+ 0.0  0.0  -1.22465e-16  -1.0
+
+julia&gt; S = [1, 1, 0, 0]; # I, Q, U, V
+
+julia&gt; M * S # no change
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+ 1.0
+ 1.0
+ 0.0
+ 0.0
+
+julia&gt; mirror(1, π, π/4) * S # rotates polarized light
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+  1.0
+ -1.0
+  1.2246467991473532e-16
+  1.2246467991473532e-16</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L209-L239">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.polellipse" href="#Mueller.polellipse"><code>Mueller.polellipse</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia hljs">polellipse(S)
+polellipse!(S)</code></pre><p>Plot the polarizatio ellipse for the given Stokes parameters. The polarization ellipse draws the path of the eletric field over one wavelength. The input vector should be a Stokes vector <code>[I, Q, U, V]</code>. This is a user recipe and can be composed with other plot recipes.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/plots.jl#L7-L12">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.qwp" href="#Mueller.qwp"><code>Mueller.qwp</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia hljs">qwp([T=Float64], θ=0)</code></pre><p>A quarter-wave plate (QWP) with fast axis oriented at angle <code>θ</code>, in radians.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl hljs">julia&gt; M = qwp()
+4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+ 1.0   0.0  0.0           0.0
+ 0.0   1.0  0.0           0.0
+ 0.0   0.0  6.12323e-17  -1.0
+ 0.0  -0.0  1.0           6.12323e-17
+
+julia&gt; S = [1, 1, 0, 0]; # I, Q, U, V
+
+julia&gt; M * S # allow +Q through unchanged
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+ 1.0
+ 1.0
+ 0.0
+ 0.0
+
+julia&gt; qwp(-π/4) * S # switch +Q to +V
+4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+  1.0
+  6.123233995736766e-17
+ -6.123233995736765e-17
+  1.0</code></pre><p><strong>See also</strong></p><p><a href="#Mueller.waveplate"><code>waveplate</code></a>, <a href="#Mueller.hwp"><code>hwp</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L172-L205">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.rotate-Union{Tuple{T}, Tuple{AbstractMatrix{T}, Any}} where T" href="#Mueller.rotate-Union{Tuple{T}, Tuple{AbstractMatrix{T}, Any}} where T"><code>Mueller.rotate</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia hljs">rotate(M, θ)</code></pre><p>Rotates the component represented by the Mueller matrix <code>M</code> counter-clockwise by angle <code>θ</code> (in radians).</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl hljs">julia&gt; M = linear_polarizer();
+
+julia&gt; Mr = rotate(M, π/2);
+
+julia&gt; Mr ≈ linear_polarizer(π/2)
+true</code></pre><p><strong>See also</strong></p><p><a href="#Mueller.rotation-Tuple{Any, Any}"><code>Mueller.rotation</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L41-L58">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.rotation-Tuple{Any, Any}" href="#Mueller.rotation-Tuple{Any, Any}"><code>Mueller.rotation</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia hljs">rotation([T=Float64], θ)</code></pre><p>Generate a rotation matrix with the given angle, in radians, <code>θ</code>. This can be used to rotate the axes of polarization components arbitrarily. For convenience, the <a href="#Mueller.rotate-Union{Tuple{T}, Tuple{AbstractMatrix{T}, Any}} where T"><code>rotate</code></a> method will rotate a component, without having to generate this matrix, itself.</p><p><strong>Examples</strong></p><p>Rotate a linear polarizer by 90 degrees counter-clockwise</p><pre><code class="language-julia-repl hljs">julia&gt; M = linear_polarizer();
+
+julia&gt; r = rotation(π/4);
+
+julia&gt; Mr = r&#39; * M * r;
+
+julia&gt; Mr ≈ linear_polarizer(π/4)
+true</code></pre><p><strong>See also</strong></p><p><a href="#Mueller.rotate-Union{Tuple{T}, Tuple{AbstractMatrix{T}, Any}} where T"><code>rotate</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L10-L31">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Mueller.waveplate" href="#Mueller.waveplate"><code>Mueller.waveplate</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia hljs">waveplate([T=Float64], δ=0, θ=0)</code></pre><p>A generic phase retarder (waveplate) with fast axis aligned with angle <code>θ</code>, in radians, and phase delay of <code>δ</code>, in radians, along the slow axis.</p><p><strong>Examples</strong></p><pre><code class="language-julia-repl hljs">julia&gt; M = waveplate(π);
+
+julia&gt; M ≈ hwp()
+true
+
+julia&gt; M = waveplate(π/2, π/4);
+
+julia&gt; M ≈ qwp(π/4)
+true</code></pre><p><strong>See also</strong></p><p><a href="#Mueller.hwp"><code>hwp</code></a>, <a href="#Mueller.qwp"><code>qwp</code></a>, <a href="#Mueller.mirror"><code>mirror</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaPhysics/Mueller.jl/blob/d58c2c718cc69b088db17bbc51553a326ca11c8b/src/Mueller.jl#L102-L122">source</a></section></article></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../examples/">« Examples</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.10 on <span class="colophon-date" title="Friday 24 December 2021 20:18">Friday 24 December 2021</span>. Using Julia version 1.7.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
