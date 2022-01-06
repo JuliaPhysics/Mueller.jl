@@ -1,16 +1,13 @@
 # Examples
 
-The following are some examples using Mueller.jl. These examples are simple demonstrations of the wave-nature of light, and how it can be measured and changed.
+The following are some examples using Mueller.jl. These examples are simple demonstrations of the wave nature of light, and how it can be measured and changed.
 
 ## Bell's inequality
 
-Inspired by [this video](https://www.youtube.com/watch?v=zcqZHYo7ONs), we can demonstrate [Bell's Theroem](https://en.wikipedia.org/wiki/Bell%27s_theorem) on orthogonal states of polarized light. First, let's look at the effect a single linear polarizer has on unpolarized light.
+Inspired by [this video](https://www.youtube.com/watch?v=zcqZHYo7ONs), we can observe the effect of [Bell's Inequality](https://en.wikipedia.org/wiki/Bell%27s_theorem) on orthogonal states of polarized light. First, let's look at the effect a single linear polarizer has on unpolarized light.
 
 ```@example bell
 using Mueller
-using Plots
-using Unitful: °
-using UnitfulRecipes
 
 # Stokes vector: I, Q, U, V
 S = [1, 0, 0, 0]
@@ -21,6 +18,9 @@ Sp = M0 * S
 the total intensity is halved, and that half is polarized in the +Q direction. We can visualize this by drawing the polarization ellipse, which is the path traced by the electric field in the electromagnetic wave over one cycle. The [`polellipse`](@ref) plot recipe plots this ellipse from a Stokes vector.
 
 ```@example bell
+using Plots
+using UnitfulRecipes
+
 polellipse(Sp, label="0° LP", lims=(-1, 1))
 ```
 
@@ -39,7 +39,11 @@ M = M_N \cdot \left(\ldots \cdot M_2 \cdot \left( M_1 \right)\right)
     julia> M = prod(reverse(components))
     ```
 
+now let's combine the two polarizors
+
 ```@example bell
+using Unitful: °
+# use Unitful degrees, otherwise specify in radians
 M2 = linear_polarizer(90°)
 M = M2 * M0
 Sp = M * S
@@ -55,7 +59,7 @@ M = M2 * M1 * M0
 Sp = M * S
 ```
 
-interestingly, despite light having to pass through two orthogonal polarization states (0° and 90°), due to the probabilistic nature of light 1/8 of the intensity passes through. To get a better intuition, let's look at the polarization ellipses at each stage
+Interestingly, despite light having to pass through two orthogonal polarization states (0° and 90°), due to the probabilistic nature of light, 1/8 of the intensity passes through. To get a better intuition for what's happening, let's look at the polarization ellipses at each step
 
 ```@example bell
 polellipse(M0 * S, label="0° LP", lims=(-1, 1))
@@ -63,7 +67,7 @@ polellipse!(M1 * M0 * S, label="0°+45° LP")
 polellipse!(Sp, label="0°+45°+90° LP")
 ```
 
-We can plot the light transmitted as a function of the angle of the  intermediate polarizer
+We can rotate the intermediate polarizor and see how that changes the amount of transmitted light.
 
 ```@example bell
 angles = range(0°, 90°, length=100)
@@ -76,25 +80,25 @@ plot(angles, intens, leg=false, xlabel="θ", ylabel="I")
 vline!([45°], c=:black, ls=:dash, alpha=0.7)
 ```
 
-this curve follows the form ``\sin(2\theta)`` and is part of the proof  of  Bell's theorem (Bell's inequality) which states there are no "hidden" variables that can know the outcome of the light's polarized state before arriving at the polarizers.
+This curve follows the form ``\sin(2\theta)`` and is part of the proof of Bell's theorem (Bell's inequality) which states there are no "hidden" variables that can know the outcome of the light's *orthogonal* polarized state before arriving at the polarizers.
 
 ## Differential polarimetry
 
-Stokes parameters are a convenient basis for polarization due to its direct relation to observables. To demonstrate this, let's set up an experiment with a simple polarimeter. This polarimeter consists of a half-wave plate (HWP) and a linear polarizer.
+Stokes parameters are a convenient basis for polarization due to their direct relation to observables. To demonstrate this, let's set up an experiment with a simple polarimeter. This polarimeter consists of a half-wave plate (HWP) and a linear polarizer.
 
 ```@example pdi
 using Mueller
 M = linear_polarizer() * hwp()
 ```
 
-polarized light will enter the detector, and in the current configuration the +Q polarization will be measured
+Polarized light will enter the detector and, in the current configuration, the detect the +Q polarization amplitude.
 
 ```@example pdi
 S = [1, 0.3, 0.2, 0]
 Sp = M * S
 ```
 
-now, if we rotate the HWP by ``\gamma``, the angle of linear polarization will increase by ``2\gamma``. We can measure orthogonal polarization states (e.g., +Q and -Q) by choosing the appropriate angles for ``\gamma``. In this case, we measure -Q by rotating the HWP by 45°.
+Now, if we rotate the HWP by ``\gamma``, the angle of linear polarization will increase by ``2\gamma``. We can measure orthogonal polarization states (e.g., +Q and -Q) by choosing the appropriate angles for ``\gamma`` such that the angle of linear polarization increases by 90°. Therefore, we measure -Q by rotating the HWP by 45°.
 
 ```@example pdi
 using Unitful: °
@@ -102,20 +106,20 @@ M45 = linear_polarizer() * hwp(45°)
 Sp45 = M45 * S
 ```
 
-if we take the difference of the two measurements, `Sp` and `Sp45`, we remove the unpolarized intensity component of the light and retain only the polarized component (in this case, stokes Q)
+If we take the difference of the two measurements, `Sp` and `Sp45`, we remove the unpolarized intensity component of the light and retain only the polarized component (in this case, stokes Q).
 
 ```@example pdi
 diffQ = Sp - Sp45
 ```
 
-from this difference, we get a clean observable of the polarimetric signal
+From this difference, we get a clean observable of the polarimetric signal.
 
 ```@example pdi
 Qhat = diffQ[2]
 Qhat ≈ S[2]
 ```
 
-Let's repeat this process with the HWP at 22.5° and 67.5° we can measure the +U and -U states
+Let's repeat this process with the HWP at 22.5° and 67.5°, which allows us to measure the +U and -U amplitudes.
 
 ```@example pdi
 M225 = linear_polarizer() * hwp(22.5°)
@@ -126,14 +130,14 @@ diffU = Sp225 - Sp675
 Uhat = diffU[2]
 ```
 
-so, from four measurements, we can generate the I, Q, and U stokes parameters
+So, from four measurements, we can generate clean I, Q, and U Stokes parameters:
 
 ```@example pdi
 Ihat = 0.5 * (Sp[1] + Sp45[1] + Sp225[1] + Sp675[1])
 Shat = [Ihat, Qhat, Uhat, NaN]
 ```
 
-which faithfully captures the linear components of the original light
+Which faithfully captures the linear components of the original light!
 
 ```@example pdi
 Shat[1:3] ≈ S[1:3]
@@ -155,7 +159,7 @@ S = [1, 0, 0, 0]
 Sp = M * S
 ```
 
-The light is  attenuated due to the linear polarizer, which is required to apply the phase change with the QWP to appropriately create  circular polarization. We can gain more intuition for this process by looking at the polarization ellipses of the light between the components
+The light is attenuated due to the linear polarizer, which is required for the QWP to apply the phase shift which creates circular polarization. We can gain more intuition for this process by looking at the polarization ellipses of the light between each step
 
 ```@example circular
 using Plots
