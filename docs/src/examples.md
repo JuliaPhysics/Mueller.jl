@@ -112,10 +112,10 @@ If we take the difference of the two measurements, `Sp` and `Sp45`, we remove th
 diffQ = Sp - Sp45
 ```
 
-From this difference, we get a clean observable of the polarimetric signal.
+From this difference, we get a clean observable of the polarimetric signal. (Note we measure the intensity with the detector)
 
 ```@example pdi
-Qhat = diffQ[2]
+Qhat = diffQ[1]
 Qhat ≈ S[2]
 ```
 
@@ -127,7 +127,7 @@ Sp225 = M225 * S
 M675 = linear_polarizer() * hwp(67.5°)
 Sp675 = M675 * S
 diffU = Sp225 - Sp675
-Uhat = diffU[2]
+Uhat = diffU[1]
 ```
 
 So, from four measurements, we can generate clean I, Q, and U Stokes parameters:
