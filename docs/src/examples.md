@@ -143,6 +143,24 @@ Which faithfully captures the linear components of the original light!
 Shat[1:3] ≈ S[1:3]
 ```
 
+!!! tip "An alternative approach"
+    Mathematically, we can express the entire differential approach in a single matrix, since subtraction is distributive over matrices and vectors. For example, to get `Qhat` directly-
+    ```math
+    \hat{Q} = M_{0} \cdot S - M_{45} \cdot S = (M_{0} - M_{45}) \cdot S
+    ```
+
+```@example pdi
+Qhat_dir =  (M - M45) * S
+```
+
+You'll quickly realize, this Mueller matrix is just indexing into the Stokes vector
+
+```@example pdi
+M_Qhat = M - M45
+```
+
+which makes it somewhat trivial in terms of practical applications.
+
 ## Generating circularly polarized light
 
 Circularly polarized light can be generated from unpolarized light with a polarizer and a quarter-wave plate (QWP).
