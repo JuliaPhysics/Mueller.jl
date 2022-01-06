@@ -209,7 +209,7 @@ qwp(θ=0) = qwp(Float64, θ)
 """
     mirror([T=Float64], r=1, δ=π, θ=0)
 
-A reflective mirror with reflectance `r`, oriented at angle `θ`, in radians, compared to the reference frame of the light, and with phase shift `δ`. An ideal mirror will have perfect reflectance and a 180° phase shift.
+A reflective mirror with reflectance `r`, oriented at angle `θ`, in radians, compared to the reference frame of the light, and with phase shift `δ`, in radians. An ideal mirror will have perfect reflectance (1) and a half-wave phase shift (π).
 
 # Examples
 ```jldoctest
