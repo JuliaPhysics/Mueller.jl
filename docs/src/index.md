@@ -30,7 +30,7 @@ Mueller.jl provides building blocks for common components. Here I generate the M
 
 ```jldoctest example
 julia> M = linear_polarizer(π/2) * linear_polarizer(π/4) * linear_polarizer(0)
-4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+4×4 StaticArraysCore.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
   0.125         0.125        0.0  0.0
  -0.125        -0.125        0.0  0.0
   1.53081e-17   1.53081e-17  0.0  0.0
@@ -43,7 +43,7 @@ you'll notice some roundoff due to the finite precision of `π/4`, you can avoid
 julia> using Unitful: °
 
 julia> M = linear_polarizer(90°) * linear_polarizer(45°) * linear_polarizer(0°)
-4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+4×4 StaticArraysCore.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
   0.125   0.125  0.0  0.0
  -0.125  -0.125  0.0  0.0
   0.0     0.0    0.0  0.0
@@ -61,7 +61,7 @@ julia> S = [1, 0, 0, 0] # I, Q, U, V
  0
 
 julia> Sp = M * S
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
   0.125
  -0.125
   0.0
