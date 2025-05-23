@@ -1,12 +1,13 @@
 using Mueller
 using Documenter
+using Documenter.Remotes: GitHub
 
 DocMeta.setdocmeta!(Mueller, :DocTestSetup, :(using Mueller); recursive=true)
 
 makedocs(;
     modules=[Mueller],
     authors="Miles Lucas <mdlucas@hawaii.edu> and contributors",
-    repo="https://github.com/JuliaPhysics/Mueller.jl/blob/{commit}{path}#{line}",
+    repo=GitHub("JuliaPhysics/Mueller.jl"),
     sitename="Mueller.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
