@@ -70,7 +70,7 @@ A linear polarizer with the throughput axis given by `θ`, in radians, by defaul
 
 ```jldoctest
 julia> M = linear_polarizer()
-4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+4×4 StaticArraysCore.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
  0.5  0.5  0.0  0.0
  0.5  0.5  0.0  0.0
  0.0  0.0  0.0  0.0
@@ -79,7 +79,7 @@ julia> M = linear_polarizer()
 julia> S = [1, 0, 0, 0]; # I, Q, U, V
 
 julia> M * S # only horizontal component (+Q) remains
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
  0.5
  0.5
  0.0
@@ -138,28 +138,27 @@ A half-wave plate (HWP) with fast axis oriented at angle `θ`, in radians.
 # Examples
 ```jldoctest
 julia> M = hwp()
-4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
- 1.0   0.0   0.0           0.0
- 0.0   1.0   0.0           0.0
- 0.0   0.0  -1.0          -1.22465e-16
- 0.0  -0.0   1.22465e-16  -1.0
+4×4 StaticArraysCore.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+ 1.0   0.0   0.0   0.0
+ 0.0   1.0   0.0   0.0
+ 0.0   0.0  -1.0  -0.0
+ 0.0  -0.0   0.0  -1.0
 
 julia> S = [1, 1, 0, 0]; # I, Q, U, V
 
 julia> M * S # allow +Q through unchanged
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
  1.0
  1.0
  0.0
  0.0
 
 julia> rotate(M, π/8) * S # switch +Q to +U
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
-  1.0
-  1.9967346175427393e-16
-  1.0
- -8.659560562354932e-17
-
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
+ 1.0
+ 1.9967346175427393e-16
+ 1.0
+ 0.0
 ```
 
 # See also
@@ -177,7 +176,7 @@ A quarter-wave plate (QWP) with fast axis oriented at angle `θ`, in radians.
 # Examples
 ```jldoctest
 julia> M = qwp()
-4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+4×4 StaticArraysCore.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
  1.0   0.0  0.0           0.0
  0.0   1.0  0.0           0.0
  0.0   0.0  6.12323e-17  -1.0
@@ -186,14 +185,14 @@ julia> M = qwp()
 julia> S = [1, 1, 0, 0]; # I, Q, U, V
 
 julia> M * S # allow +Q through unchanged
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
  1.0
  1.0
  0.0
  0.0
 
 julia> qwp(-π/4) * S # switch +Q to +V
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
   1.0
   6.123233995736766e-17
  -6.123233995736765e-17
@@ -214,27 +213,27 @@ A reflective mirror with reflectance `r`, oriented at angle `θ`, in radians, co
 # Examples
 ```jldoctest
 julia> M = mirror()
-4×4 StaticArrays.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
- 1.0  0.0   0.0           0.0
- 0.0  1.0   0.0          -0.0
- 0.0  0.0  -1.0           1.22465e-16
- 0.0  0.0  -1.22465e-16  -1.0
+4×4 StaticArraysCore.SMatrix{4, 4, Float64, 16} with indices SOneTo(4)×SOneTo(4):
+ 1.0  0.0   0.0   0.0
+ 0.0  1.0   0.0  -0.0
+ 0.0  0.0  -1.0   0.0
+ 0.0  0.0  -0.0  -1.0
 
 julia> S = [1, 1, 0, 0]; # I, Q, U, V
 
 julia> M * S # no change
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
  1.0
  1.0
  0.0
  0.0
 
 julia> mirror(1, π, π/4) * S # rotates polarized light
-4-element StaticArrays.SVector{4, Float64} with indices SOneTo(4):
+4-element StaticArraysCore.SVector{4, Float64} with indices SOneTo(4):
   1.0
  -1.0
   1.2246467991473532e-16
-  1.2246467991473532e-16
+  0.0
 ```
 """
 function mirror(T::Type, r=1, δ=π, θ=0)
