@@ -12,7 +12,9 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://juliaphysics.github.io/Mueller.jl",
-        assets=String[],
+        assets=String[
+            "assets/favicon.ico",
+        ],
     ),
     pages=[
         "Home" => "index.md",
