@@ -24,4 +24,5 @@ makedocs(;
 deploydocs(;
     repo="github.com/JuliaPhysics/Mueller.jl",
     devbranch="main",
+    push_preview=true,
 )
