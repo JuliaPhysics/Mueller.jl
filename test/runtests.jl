@@ -4,6 +4,7 @@ using RecipesBase: apply_recipe
 using StableRNGs
 using Test
 using Unitful: °
+using Aqua
 
 rng = StableRNG(128584)
 
@@ -68,7 +69,7 @@ rng = StableRNG(128584)
             M90 = linear_polarizer(T, 90°)
             M = M0 * M90
             @test all(≈(0), M)
-    
+
             # more randomly
             for θ in 180 .* rand(rng, 1000)
                 M1 = linear_polarizer(T, θ*°)
@@ -132,5 +133,9 @@ rng = StableRNG(128584)
         @test maximum(x) ≈ 1/sqrt(2) atol=1e-5
         @test minimum(y) ≈ -1/sqrt(2) atol=1e-5
         @test maximum(y) ≈ 1/sqrt(2) atol=1e-5
+    end
+
+    @testset "Aqua.jl (QA for Mueller.jl)" begin
+        Aqua.test_all(Mueller)
     end
 end
