@@ -19,7 +19,6 @@ the total intensity is halved, and that half is polarized in the +Q direction. W
 
 ```@example bell
 using Plots
-using UnitfulRecipes
 
 polellipse(Sp, label="0° LP", lims=(-1, 1))
 ```
